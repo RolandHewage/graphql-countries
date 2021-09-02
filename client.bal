@@ -1,4 +1,3 @@
-// import ballerina/io;
 import ballerina/http;
 
 public isolated client class Client {
@@ -13,94 +12,76 @@ public isolated client class Client {
         self.clientEp = httpEp;
     }
 
-    // Query functions (Option 5)
+    // Query functions
 
     remote isolated function getCountry(string query, string code) returns CountryResponse|error {
         http:Request request = new;
-        ObjectParameters params = {
-            query: query,
-            variables: { code: code.toJson() }
-        };
-        request.setPayload(params.toJson());
+        map<anydata> variables = { "code": code };
+        json graphqlPayload = check getGraphqlPayload(query, variables);
+        request.setPayload(graphqlPayload);
         CountryResponse response = check self.clientEp-> post("", request, targetType = CountryResponse);
         return response;
     }
 
-    remote isolated function getCountries(string query, CountryFilterInput? filter = ()) returns CountriesResponse|error {
+    remote isolated function getCountries(string query, CountryFilterInput? filter = ()) 
+                                          returns CountriesResponse|error {
         http:Request request = new;
-        ObjectParameters params = {
-            query: query,
-            variables: { filter: filter.toJson() }
-        };
-        request.setPayload(params.toJson());
+        map<anydata> variables = { "filter": filter };
+        json graphqlPayload = check getGraphqlPayload(query, variables);
+        request.setPayload(graphqlPayload);
         CountriesResponse response = check self.clientEp-> post("", request, targetType = CountriesResponse);
         return response;
     }
 
     remote isolated function getLanguage(string query, string code) returns LanguageResponse|error {
         http:Request request = new;
-        ObjectParameters params = {
-            query: query,
-            variables: { code: code.toJson() }
-        };
-        request.setPayload(params.toJson());
+        map<anydata> variables = { "code": code };
+        json graphqlPayload = check getGraphqlPayload(query, variables);
+        request.setPayload(graphqlPayload);
         LanguageResponse response = check self.clientEp-> post("", request, targetType = LanguageResponse);
         return response;
     }
 
-    remote isolated function getLanguages(string query, LanguageFilterInput? filter = ()) returns LanguagesResponse|error {
+    remote isolated function getLanguages(string query, LanguageFilterInput? filter = ()) 
+                                          returns LanguagesResponse|error {
         http:Request request = new;
-        ObjectParameters params = {
-            query: query,
-            variables: { filter: filter.toJson() }
-        };
-        request.setPayload(params.toJson());
+        map<anydata> variables = { "filter": filter };
+        json graphqlPayload = check getGraphqlPayload(query, variables);
+        request.setPayload(graphqlPayload);
         LanguagesResponse response = check self.clientEp-> post("", request, targetType = LanguagesResponse);
         return response;
     }
 
     remote isolated function getContinent(string query, string code) returns ContinentResponse|error {
         http:Request request = new;
-        ObjectParameters params = {
-            query: query,
-            variables: { code: code.toJson() }
-        };
-        request.setPayload(params.toJson());
+        map<anydata> variables = { "code": code };
+        json graphqlPayload = check getGraphqlPayload(query, variables);
+        request.setPayload(graphqlPayload);
         ContinentResponse response = check self.clientEp-> post("", request, targetType = ContinentResponse);
         return response;
     }
 
-    remote isolated function getContinents(string query, ContinentFilterInput? filter = ()) returns ContinentsResponse|error {
+    remote isolated function getContinents(string query, ContinentFilterInput? filter = ()) 
+                                           returns ContinentsResponse|error {
         http:Request request = new;
-        ObjectParameters params = {
-            query: query,
-            variables: { filter: filter.toJson() }
-        };
-        request.setPayload(params.toJson());
+        map<anydata> variables = { "filter": filter };
+        json graphqlPayload = check getGraphqlPayload(query, variables);
+        request.setPayload(graphqlPayload);
         ContinentsResponse response = check self.clientEp-> post("", request, targetType = ContinentsResponse);
         return response;
     }
 
     remote isolated function query(string query, string? countryCode = (), CountryFilterInput? countryFilterInput = (), 
-                                string? languageCode = (), LanguageFilterInput? languageFilterInput = (),
-                                string? continentCode = (), ContinentFilterInput? continentFilterInput = (),
-                                map<anydata>? additionalVariables = ()) 
-                                returns QueryResponse|error {
-        json definedVariables = { 
-                countryCode: countryCode.toJson(), 
-                countryFilterInput: countryFilterInput.toJson(),
-                languageCode: languageCode.toJson(),
-                languageFilterInput: languageFilterInput.toJson(),
-                continentCode: continentCode.toJson(),
-                continentFilterInput: continentFilterInput.toJson()
-            }; 
-        json variables = check definedVariables.mergeJson(additionalVariables.toJson());                        
-        ObjectParameters params = {
-            query: query,
-            variables: variables
-        };
+                                   string? languageCode = (), LanguageFilterInput? languageFilterInput = (),
+                                   string? continentCode = (), ContinentFilterInput? continentFilterInput = (),
+                                   map<anydata>? additionalVariables = ()) 
+                                   returns QueryResponse|error {
         http:Request request = new;
-        request.setPayload(params.toJson());
+        map<anydata> definedVariables = { "countryCode": countryCode,  "countryFilterInput": countryFilterInput, 
+            "languageCode": languageCode, "languageFilterInput": languageFilterInput, "continentCode":continentCode, 
+            "continentFilterInput": continentFilterInput};
+        json graphqlPayload = check getGraphqlPayload(query, definedVariables, additionalVariables);     
+        request.setPayload(graphqlPayload);
         QueryResponse response = check self.clientEp-> post("", request, targetType = QueryResponse);
         return response;
     }
