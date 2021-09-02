@@ -1,35 +1,29 @@
-type ObjectParameters record {|
-    string query;
-    json? variables;
-|};
-
 // Error response
 
-type Error record {
+public type Error record {
     string message;
     Location[]? locations?;
     record {}? extensions?;
-    (string|int)[]? path?;
 };
 
-type Location record {
+public type Location record {
     int line?;
     int column?;
 };
 
 // Country
 
-type CountryResponse record {
+public type CountryResponse record {
     CountryData? data?;
     Error[]? errors?;
     record {}? extensions?;
 };
 
-type CountryData record {
+public type CountryData record {
     Country? country?;
 };
 
-type Country record {
+public type Country record {
     string code?;
     string name?;
     string native?;
@@ -45,7 +39,7 @@ type Country record {
 
 // State
 
-type State record {
+public type State record {
     string? code?;
     string name?;
     Country country?;
@@ -53,29 +47,29 @@ type State record {
 
 // Countries
 
-type CountriesResponse record {
-    CountryData? data?;
+public type CountriesResponse record {
+    CountriesData? data?;
     Error[]? errors?;
     record {}? extensions?;
 };
 
-type CountriesData record {
+public type CountriesData record {
     Country[] countries;
 };
 
 // Continent
 
-type ContinentResponse record {
+public type ContinentResponse record {
     ContinentData? data?;
     Error[]? errors?;
     record {}? extensions?;
 };
 
-type ContinentData record {
+public type ContinentData record {
     Continent? continent?;
 };
 
-type Continent record {
+public type Continent record {
     string code?;
     string name?;
     Country[] countries?;
@@ -83,29 +77,29 @@ type Continent record {
 
 // Continents
 
-type ContinentsResponse record {
+public type ContinentsResponse record {
     ContinentsData? data?;
     Error[]? errors?;
     record {}? extensions?;
 };
 
-type ContinentsData record {
+public type ContinentsData record {
     Continent[] continents;
 };
 
 // Language
 
-type LanguageResponse record {
+public type LanguageResponse record {
     LanguageData? data?;
     Error[]? errors?;
     record {}? extensions?;
 };
 
-type LanguageData record {
+public type LanguageData record {
     Language? language?;
 };
 
-type Language record {
+public type Language record {
     string code?;
     string? name?;
     string? native?;
@@ -114,25 +108,25 @@ type Language record {
 
 // Languages
 
-type LanguagesResponse record {
+public type LanguagesResponse record {
     LanguagesData? data?;
     Error[]? errors?;
     record {}? extensions?;
 };
 
-type LanguagesData record {
+public type LanguagesData record {
     Language[] languages;
 };
 
 // Query
 
-type QueryResponse record {
+public type QueryResponse record {
     QueryData? data?;
     Error[]? errors?;
     record {}? extensions?;
 };
 
-type QueryData record {
+public type QueryData record {
     Country? country?;
     Country[] countries?;
     Language? language?;
@@ -143,7 +137,7 @@ type QueryData record {
 
 // Input Types
 
-type StringQueryOperatorInput record {
+public type StringQueryOperatorInput record {
     string? eq?;
     string? ne?;
     string?[]? 'in?;
